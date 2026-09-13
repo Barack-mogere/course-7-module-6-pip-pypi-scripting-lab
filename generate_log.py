@@ -1,37 +1,21 @@
-import requests
 from datetime import datetime
 
 
-def fetch_data():
-    response = requests.get(
-        "https://jsonplaceholder.typicode.com/posts/1"
-    )
+def generate_log(data):
+    # STEP 1: Validate input
+    if not isinstance(data, list):
+        raise ValueError("Data must be a list")
 
-    if response.status_code == 200:
-        return response.json()
-
-    print("Failed to fetch data from the API.")
-    return {}
-
-
-def generate_log():
-    post = fetch_data()
-
-    log_data = [
-        "User logged in",
-        "User updated profile",
-        "Report exported",
-        f"Fetched post: {post.get('title', 'No title found')}"
-    ]
-
+    # STEP 2: Generate a filename with today's date
     filename = f"log_{datetime.now().strftime('%Y%m%d')}.txt"
 
+    # STEP 3: Write the log entries to the file
     with open(filename, "w") as file:
-        for entry in log_data:
+        for entry in data:
             file.write(f"{entry}\n")
 
+    # STEP 4: Print a confirmation message
     print(f"Log written to {filename}")
 
-
-if __name__ == "__main__":
-    generate_log()
+    # Return the filename
+    return filename
