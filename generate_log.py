@@ -10,6 +10,7 @@ def fetch_data():
     if response.status_code == 200:
         return response.json()
 
+    print("Failed to fetch data from the API.")
     return {}
 
 
